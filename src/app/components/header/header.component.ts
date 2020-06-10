@@ -219,13 +219,6 @@ export class HeaderComponent implements OnInit {
         submenus:[]
       },
       {
-        icons: 'announcement',
-        nombre: 'Testimonios',
-        disable: true,
-        url: '/testimonio',
-        submenus:[]
-      },
-      {
         icons: 'account_circle',
         nombre: 'Mi Cuenta',
         disable: this.rolUser !== 'visitante',
@@ -238,27 +231,6 @@ export class HeaderComponent implements OnInit {
         url: '/config/bancos',
         submenus:[]
       },*/
-      {
-        icons: 'shop',
-        nombre: 'Mis Cobros',
-        disable: this.rolUser !== 'visitante',
-        url: '/config/cobros',
-        submenus:[]
-      },
-      {
-        icons: 'local_grocery_store',
-        nombre: 'Mis Ventas',
-        disable: this.rolUser !== 'visitante',
-        url: '/config/ventas',
-        submenus:[]
-      },
-      {
-        icons: 'people_alt',
-        nombre: 'Mis Referidos',
-        disable: this.rolUser !== 'visitante',
-        url: '/config/referidos',
-        submenus:[]
-      },
       /*{
         icons: 'security',
         nombre: 'Seguridad',
