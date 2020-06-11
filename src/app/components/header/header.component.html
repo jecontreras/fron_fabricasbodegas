@@ -52,6 +52,7 @@
                 <img class="imgFoto pointer" [src]="item.foto || './assets/img/producto.jpg'" mat-list-icon>
                 <h4 mat-line>{{ item.titulo }}</h4>
                 <p mat-line>{{ 'Cantidad: '+item.cantidad }} </p>
+                <p mat-line>{{ 'Talla: '+item.talla }} </p>
                 <p mat-line>Precio:$ {{ ( item.costoTotal || 0).toLocaleString(1) }} COP</p>
                 <p mat-line><span (click)="deleteCart(idx, item)" class="p-1 pointer d-flex justify-content-end"><i class="material-icons">delete</i></span> </p>
               </mat-list-item>

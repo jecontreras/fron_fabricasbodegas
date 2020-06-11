@@ -173,12 +173,12 @@ export class PedidosComponent implements OnInit {
     if( cabeza ){
       numeroSplit = _.split( cabeza.usu_telefono, "+57", 2);
       if( numeroSplit[1] ) cabeza.usu_telefono = numeroSplit[1];
-      if( cabeza.usu_perfil == 3 ) cerialNumero = ( cabeza.usu_indicativo || '57' ) + ( cabeza.usu_telefono || '3148487506' );
-      else cerialNumero = "573148487506";
-    }else cerialNumero = "573148487506";
-    if(this.userId.id) this.urlwhat = `https://wa.me/${ this.userId.usu_indicativo || 57 }${ ( (_.split( this.userId.usu_telefono , "+57", 2))[1] ) || '3148487506'}?text=Hola Servicio al cliente, como esta, saludo cordial, estoy interesad@ en mas informacion ${obj.pro_nombre} codigo ${obj.pro_codigo} foto ==> ${ obj.foto }`;
+      if( cabeza.usu_perfil == 3 ) cerialNumero = ( cabeza.usu_indicativo || '57' ) + ( cabeza.usu_telefono || '3147563817' );
+      else cerialNumero = "573147563817";
+    }else cerialNumero = "573147563817";
+    if(this.userId.id) this.urlwhat = `https://wa.me/${ this.userId.usu_indicativo || 57 }${ ( (_.split( this.userId.usu_telefono , "+57", 2))[1] ) || '3147563817'}?text=Hola Victor landazury cómo esta por favor me confirma disponibilidad de este modelo ${obj.pro_nombre} foto ==> ${ obj.foto } talla ${ ( obj.tallasSelect || 'cualquiera' ) } quedo pendiente`;
     else {
-      this.urlwhat = `https://wa.me/${ cerialNumero }?text=Hola Servicio al cliente, como esta, saludo cordial, estoy interesad@ en mas informacion ${obj.pro_nombre} codigo ${obj.pro_codigo} foto ==> ${ obj.foto }`;
+      this.urlwhat = `https://wa.me/${ cerialNumero }?text=Hola Victor landazury cómo esta por favor me confirma disponibilidad de este modelo ${obj.pro_nombre} foto ==> ${ obj.foto } talla ${ ( obj.tallasSelect || 'cualquiera' ) } quedo pendiente`;
     }
     window.open(this.urlwhat);
   }
@@ -208,6 +208,7 @@ export class PedidosComponent implements OnInit {
       codigo: item.pro_codigo,
       titulo: item.pro_nombre,
       foto: item.foto,
+      talla: item.tallasSelect || 'cualquiera',
       cantidad: item.cantidadAdquirir || 1,
       costo: item.pro_uni_venta,
       costoTotal: ( item.pro_uni_venta*( item.cantidadAdquirir || 1 ) ),
