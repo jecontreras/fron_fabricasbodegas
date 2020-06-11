@@ -303,7 +303,6 @@ export class FormproductosComponent implements OnInit {
         pro_codigo: this.codigo(),
         pro_sw_tallas: 1
       };
-      this.id = "";
       this._tools.presentToast("Eliminado Exitos");
     },(error:any)=> { this._tools.presentToast("Error de servidor"); this.disableEliminar = false; })
   }
