@@ -28,6 +28,9 @@ export class FormproductosComponent implements OnInit {
   listColor:any = [];
   editorConfig: any;
   listPrecios:any = [];
+  listGaleria:any = [];
+
+  btnDisabled:boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -144,11 +147,14 @@ export class FormproductosComponent implements OnInit {
   }
 
   guardar(){
-    this._productos.create(this.data).subscribe((res:any)=>{
-      //console.log(res);
-      this._tools.presentToast("Exitoso");
-    }, (error)=>this._tools.presentToast("Error"));
-    this.dialog.closeAll();
+    return new Promise(resolve=>{
+      this._productos.create(this.data).subscribe((res:any)=>{
+        //console.log(res);
+        this._tools.presentToast("Exitoso");
+        resolve(res);
+      }, (error)=>{ this._tools.presentToast("Error"); resolve(false)});
+    });
+    //this.dialog.closeAll();
   }
   updates(){
     // this.data = _.omit(this.data, [ ''])
@@ -157,6 +163,57 @@ export class FormproductosComponent implements OnInit {
       this._tools.presentToast("Actualizado");
     },(error)=>{console.error(error); this._tools.presentToast("Error de servidor")});
   }
+  onSelects(event: any) {
+    //console.log(event, this.files);
+    this.files.push(...event.addedFiles)
+  }
+
+
+  onRemoves(event) {
+    //console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  async subirFiles() {
+    this.btnDisabled = true;
+    for (let row of this.files) {
+      await this.fileSubmit( row );
+    }
+    this.files = [];
+    this.btnDisabled = false;
+    this._tools.presentToast("Exitoso");
+
+  }
+
+  fileSubmit(row) {
+    return new Promise(resolve => {
+      let form: any = new FormData();
+      form.append('file', row);
+      this._tools.ProcessTime({});
+      //this._archivos.create( this.files[0] );
+      this._archivos.create(form).subscribe(async (res: any) => {
+        //console.log(res);
+        this.data = {
+          pro_nombre: this.codigo(),
+          foto: res.files,
+          pro_descripcion: `disponibles desde la talla 36 a la talla 43 echos en material sintético de muy buena calidad
+          ✈Envió 100% gratis a ciudades principales de Colombia , y a otros destinos de Colombia pagas solo el 50% del envió.
+          📲contacta a la persona que te compartió esta publicación en el botón mas información
+          Ventas al mayor y detal
+          🇨🇴 Envíos a toda Colombia pago contra entrega
+          📷Fotos Reales 👟 Garantía 🛡 Seguridad en tus Compras
+          🚛🛫tiempo de entrega: de 5 a 7 días hábiles después de realizar tu pedido`,
+          pro_categoria: 1,
+          pro_sw_tallas: 6,
+          pro_uni_venta: 90000
+        };
+        await this.guardar();
+        this.listGaleria.push( this.data );
+        resolve(true);
+      }, (error) => { console.error(error); this._tools.presentToast("Error de servidor"); });
+    });
+  }
+
   editor(){
     let config:AngularEditorConfig = {
           editable: true,
