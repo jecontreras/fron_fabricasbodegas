@@ -8,6 +8,7 @@ import { TipoTallasService } from 'src/app/servicesComponents/tipo-tallas.servic
 import { ArchivosService } from 'src/app/servicesComponents/archivos.service';
 import { environment } from 'src/environments/environment';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { ProductosOrdenarComponent } from '../../table/productos-ordenar/productos-ordenar.component';
 
 const URL = environment.url;
 
@@ -55,6 +56,18 @@ export class FormproductosComponent implements OnInit {
     }else{this.id = ""; this.data.pro_codigo = this.codigo(); this.data.pro_sw_tallas = 1; }
     this.getCategorias();
     this.getTipoTallas();
+  }
+
+  ordenActualizar(){
+    const dialogRef = this.dialog.open(ProductosOrdenarComponent,{
+      data: {datos: {}},
+      height:  '550px',
+      width: '100%',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   procesoEdision(){

@@ -14,6 +14,11 @@
             </div>
         </div>
         <div class="col" *ngIf="id && titulo == 'Crear'">
+            <div class="d-flex flex-row-reverse bd-highlight">
+                <div class="p-2 bd-highlight">
+                    <button type="button" class="btn btn-success" (click)="ordenActualizar()">Actualizar orden de lista</button>
+                </div>
+              </div>
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let item of listGaleria" (click)="seleccionandoImg( item )">
                     <mat-card class="example-card" [ngClass]="{seleccionado: item.check}">

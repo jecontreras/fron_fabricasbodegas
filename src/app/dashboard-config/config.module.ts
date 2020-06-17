@@ -34,6 +34,7 @@ import { FormtestimoniosComponent } from './form/formtestimonios/formtestimonios
 import { TestimonioComponent } from './components/testimonios/testimonios.component';
 import { VentastableComponent } from './table/ventastable/ventastable.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ProductosOrdenarComponent } from './table/productos-ordenar/productos-ordenar.component';
 
 @NgModule({
   entryComponents: [
@@ -45,7 +46,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     FormcobrosComponent,
     FormpuntosComponent,
     FormtestimoniosComponent,
-    VentastableComponent
+    VentastableComponent,
+    ProductosOrdenarComponent
   ],
   declarations: [
     MainComponent,
@@ -68,7 +70,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     FormpuntosComponent,
     FormtestimoniosComponent,
     TestimonioComponent,
-    VentastableComponent
+    VentastableComponent,
+    ProductosOrdenarComponent
   ],
   imports: [
     CommonModule,
