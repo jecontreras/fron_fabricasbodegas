@@ -15,7 +15,9 @@ export class ProductosOrdenarComponent implements OnInit {
   id:string = "";
   titulo:string = "Crear";
   btndisabled:boolean = false;
-  
+
+  listGaleria2:any = [];
+
   constructor(
     private _productos: ProductoService,
     private _tools: ToolsService
@@ -26,11 +28,10 @@ export class ProductosOrdenarComponent implements OnInit {
   }
 
   getProductos(){
-    this._productos.get( { where:{ pro_activo: 0 }, limit: -1 } ).subscribe((res:any)=> this.listGaleria = res.data );
+    this._productos.get( { where:{ pro_activo: 0 }, limit: -1 } ).subscribe((res:any)=> { this.listGaleria = _.clone( res.data ); this.listGaleria2 = _.clone( res.data ); } );
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    //console.log( event );
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -44,7 +45,8 @@ export class ProductosOrdenarComponent implements OnInit {
   actualizarOrden(){
     let ordenar = []
     // for( let row of this.listGaleria ) ordenar.push({ id: row.id });
-    for( let row of this.listGaleria ) ordenar.push({ id: row.id });
+    for( let row of this.listGaleria2 ) ordenar.push({ id: row.id });
+    ordenar =_.unionBy( ordenar || [], ordenar, 'id');
     this.btndisabled = true;
     this._productos.ordenar( { lista: ordenar } ).subscribe((res:any)=> {
       this.btndisabled = false;
