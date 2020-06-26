@@ -99,7 +99,7 @@
                                         confirmar disponibilidad <img src="./assets/icons/whatsapp.png"
                                             style="width: 15%; float: right">
                                     </button>
-                                    <label style="color:red;cursor: pointer" data-toggle="tooltip"
+                                    <label *ngIf="dataUser.id" style="color:red;cursor: pointer" data-toggle="tooltip"
                                         data-placement="bottom" title=""
                                         data-original-title="PAGAS CUANDO RECIBES: Más Información por Whatsapp">Pagas
                                         cuando recibes!</label>

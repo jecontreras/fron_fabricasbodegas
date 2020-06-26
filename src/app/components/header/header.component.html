@@ -6,7 +6,8 @@
     <button mat-icon-button (click)="snav.toggle()" translate="no">
       <i class="material-icons">menu</i>
     </button>
-    <h5 class="textInf"><span class="textInf">Fabricas y Bodegas</span></h5>
+    <h5 class="textInf" *ngIf="userId.id" ><span class="textInf">{{ userId.usu_nombre_empresa }}</span></h5>
+    <h5 class="textInf" *ngIf="!userId.id" ><span class="textInf">Fabricas y Bodegas</span> </h5>
     <div class="row col">
       <div class="col"></div>
       <div style="margin-top: 7px;">
@@ -116,7 +117,8 @@
       <div style="width: 290px; height: 90px;" fxLayout="column">
         <ng-container class="row">
           <div class="col-12">
-            <img class="logo" src="./assets/img/logo.png">
+            <br>
+            <img class="logo" [src]="userId.usu_logo ||'./assets/img/logo.png'">
           </div>
           <ul class="nav nav-pills nav-stacked row margin">
             <li class="active col-12 paddingLeft">

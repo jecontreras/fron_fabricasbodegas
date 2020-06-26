@@ -288,13 +288,13 @@ export class HeaderComponent implements OnInit {
         url: 'login()',
         submenus:[]
       },
-      {
-        icons: 'supervisor_account',
-        nombre: 'Vende para nosotros',
-        disable: this.rolUser === 'visitante',
-        url: 'registrar()',
-        submenus:[]
-      },
+      // {
+      //   icons: 'supervisor_account',
+      //   nombre: 'Vende para nosotros',
+      //   disable: this.rolUser === 'visitante',
+      //   url: 'registrar()',
+      //   submenus:[]
+      // },
       {
         icons: 'exit_to_app',
         nombre: 'Salir',

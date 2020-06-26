@@ -22,6 +22,7 @@ export class PerfilComponent implements OnInit {
 
   data:any = {};
   files: File[] = [];
+  files_logo: File[] = [];
   list_files: any = [];
   urlTienda:string = `${ URLFRON }/pedidos/`;
   urlRegistro:string = `${ URLFRON }/registro/`;
@@ -49,25 +50,29 @@ export class PerfilComponent implements OnInit {
     this.urlRegistro+=this.data.id;
   }
 
-  onSelect(event:any) {
-    //console.log(event, this.files);
-    this.files=[event.addedFiles[0]]
+  onSelect( event:any, opt:string = "usu_imagen" ) {
+    if( opt == "usu_imagen") this.files=[event.addedFiles[0]]
+    if( opt == "usu_logo") this.files_logo=[event.addedFiles[0]]
   }
   
-  onRemove(event) {
+  onRemove( event:any, opt:string = "usu_imagen" ) {
     //console.log(event);
-    this.files.splice(this.files.indexOf(event), 1);
+    if( opt == "usu_imagen") this.files.splice(this.files.indexOf(event), 1);
+    if( opt == "usu_logo") this.files_logo.splice(this.files_logo.indexOf(event), 1);
   }
 
-  subirFile(opt:string){
+  subirFile( opt:string ){
     let form:any = new FormData();
-    form.append('file', this.files[0]);
+    if( opt == "usu_imagen" ) form.append('file', this.files[0]);
+    if( opt == "usu_logo" ) form.append('file', this.files_logo[0]);
     this._tools.ProcessTime({});
     this._archivos.create(form).subscribe((res:any)=>{
       console.log(res);
       this.data[opt] = res.files; //URL+`/${res}`;
       this._tools.presentToast("Exitoso");
       this.Actualizar();
+      if( opt == "usu_imagen" ) this.files = [];
+      if( opt == "usu_logo" ) this.files_logo = [];
     },(error)=>{console.error(error); this._tools.presentToast("Error de servidor")});
 
   }

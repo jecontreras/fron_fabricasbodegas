@@ -170,17 +170,23 @@ export class PedidosComponent implements OnInit {
     let cerialNumero:any = ''; 
     let numeroSplit:any;
     let cabeza:any = this.dataUser.cabeza;
+    if( !obj.tallasSelect ) return this._tools.presentToast("Por Favor seleccionar una talla!");
     if( cabeza ){
       numeroSplit = _.split( cabeza.usu_telefono, "+57", 2);
       if( numeroSplit[1] ) cabeza.usu_telefono = numeroSplit[1];
       if( cabeza.usu_perfil == 3 ) cerialNumero = ( cabeza.usu_indicativo || '57' ) + ( cabeza.usu_telefono || '3147563817' );
-      else cerialNumero = "573147563817";
-    }else cerialNumero = "573147563817";
-    if(this.userId.id) this.urlwhat = `https://wa.me/${ this.userId.usu_indicativo || 57 }${ ( (_.split( this.userId.usu_telefono , "+57", 2))[1] ) || '3147563817'}?text=Hola Victor landazury cómo esta por favor me confirma disponibilidad de este modelo ${obj.pro_nombre} foto ==> ${ obj.foto } talla ${ ( obj.tallasSelect || 'cualquiera' ) } quedo pendiente`;
+      else cerialNumero = this.validarNumero();
+    }else cerialNumero = this.validarNumero();
+    if( this.userId.id ) this.urlwhat = `https://wa.me/${ this.userId.usu_indicativo || 57 }${ ( (_.split( this.userId.usu_telefono , "+57", 2))[1] ) || '3147563817'}?text=Hola Victor landazury cómo esta por favor me confirma disponibilidad de este modelo ${obj.pro_nombre} foto ==> ${ obj.foto } talla ${ ( obj.tallasSelect || 'cualquiera' ) } quedo pendiente`;
     else {
       this.urlwhat = `https://wa.me/${ cerialNumero }?text=Hola Victor landazury cómo esta por favor me confirma disponibilidad de este modelo ${obj.pro_nombre} foto ==> ${ obj.foto } talla ${ ( obj.tallasSelect || 'cualquiera' ) } quedo pendiente`;
     }
     window.open(this.urlwhat);
+  }
+
+  validarNumero(){
+    if( Object.keys( this.dataUser ).length > 0 ) return "573154074456";
+    else return "573147563817";
   }
   
   maxCantidad(obj:any){
@@ -203,6 +209,7 @@ export class PedidosComponent implements OnInit {
 
   AgregarCart(item:any){
     console.log(item);
+    if( !item.tallasSelect ) return this._tools.presentToast("Por Favor seleccionar una talla!");
     let data:any = {
       articulo: item.id,
       codigo: item.pro_codigo,

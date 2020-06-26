@@ -1,136 +1,180 @@
 <div class="main-content">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card" style="overflow-x: scroll;">
-            <br>
-            <br>
-            <div class="card-header card-header-primary card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">assignment</i>
-              </div>
-              <h4 class="card-title">Mi cuenta</h4>
-            </div>
-            <div class="card-header card-header-primary card-header-icon">
-                <div class="card-icon">
-                  <h5>{{ data.usu_nombre }}</h5>
-                </div>
-                <div class="row">
-                    <h6 class="card-title">
-                        Este es el Link de su tienda:
-                    </h6>
-                    <div>
-                        <button (click)="copiarLink()" class="btn btn-primary btn-just-icon btn-round saltoButton">Copiar link de su tienda</button>
-                        <button (click)="copiarLinkRegistro()" class="btn btn-success btn-just-icon btn-round saltoButton">Invitar Personas</button>
-                        <button (click)="abrrirTienda()" class="btn btn-primary btn-just-icon btn-round saltoButton">Abrir tienda en una pestaña nueva</button>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card" style="overflow-x: scroll;">
+                    <br>
+                    <br>
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <h4 class="card-title">Mi cuenta</h4>
                     </div>
-                </div>
-            </div>
-            <div class="row p-3">
-                <div class="col-12 mx-auto">
-                    <div class="mx-auto" style="width: 200px;">
-                        <img [src]="data.usu_imagen" class="imgPerfil">
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <h5>{{ data.usu_nombre }}</h5>
+                        </div>
+                        <div class="row">
+                            <h6 class="card-title">
+                                Este es el Link de su tienda:
+                            </h6>
+                            <div>
+                                <button (click)="copiarLink()"
+                                    class="btn btn-primary btn-just-icon btn-round saltoButton">Copiar link de su
+                                    tienda</button>
+                                <!-- <button (click)="copiarLinkRegistro()" class="btn btn-success btn-just-icon btn-round saltoButton">Invitar Personas</button> -->
+                                <button (click)="abrrirTienda()"
+                                    class="btn btn-primary btn-just-icon btn-round saltoButton">Abrir tienda en una
+                                    pestaña nueva</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="row">
-                        <label>Subir Foto de Perfil</label>
-                        <button class="btn btn-primary btn-just-icon btn-round" (click)="subirFile('usu_imagen')" *ngIf="files.length > 0">
-                            Subir Imagen
-                        </button>
-                    </div>
-                    <ngx-dropzone (change)="onSelect($event)">
-                        <ngx-dropzone-label>Abrir archivos</ngx-dropzone-label>
-                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
-                            [file]="f" [removable]="true" (removed)="onRemove(f)" multiple="false">
-                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                        </ngx-dropzone-image-preview>
-                    </ngx-dropzone>
-                </div>
-                <div class="col-6">
-                    <label>Nombre(s)</label>
-                    <input type="text" [(ngModel)]="data.usu_nombre" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Apellido(s)</label>
-                    <input type="text" [(ngModel)]="data.usu_apellido" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Pais</label>
-                    <input type="text" [(ngModel)]="data.usu_pais" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Celular</label>
-                    <input type="text" [(ngModel)]="data.usu_telefono" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Ciudad</label>
-                    <input type="text" [(ngModel)]="data.usu_ciudad" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Dirección</label>
-                    <input type="text" [(ngModel)]="data.usu_direccion" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Correo Electronico</label>
-                    <input type="text" [(ngModel)]="data.usu_email" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Url de Facebook</label>
-                    <input type="text" [(ngModel)]="data.url_facebook" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Url de Instagram</label>
-                    <input type="text" [(ngModel)]="data.url_instagram" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Url de youtube</label>
-                    <input type="text" [(ngModel)]="data.url_youtube" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Fecha Nacimiento(s)</label>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="date" class="form-control"
-                            [(ngModel)]="data.usu_fec_nacimiento">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <label>Genero</label>
-                    <select class="form-control form-control-sm" [(ngModel)]="data.usu_genero">
-                        <option value="masculino">Masculino</option>
-                        <option value="feminino">Feminino</option>
-                    </select>
-                </div>
-                <!--<div class="col-12">
+                    <div class="row p-3">
+                        <div class="col-12 mx-auto">
+                            <div class="mx-auto" style="width: 200px;">
+                                <img [src]="data.usu_imagen" class="imgPerfil">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <label>Subir Foto de Perfil</label>
+                                <button class="btn btn-primary btn-just-icon btn-round"
+                                    (click)="subirFile('usu_imagen')" *ngIf="files.length > 0">
+                                    Subir Imagen
+                                </button>
+                            </div>
+                            <ngx-dropzone (change)="onSelect($event)">
+                                <ngx-dropzone-label>Abrir archivos</ngx-dropzone-label>
+                                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+                                    [file]="f" [removable]="true" (removed)="onRemove(f)" multiple="false">
+                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                </ngx-dropzone-image-preview>
+                            </ngx-dropzone>
+                        </div>
+                        <div class="col-6">
+                            <label>Nombre(s)</label>
+                            <input type="text" [(ngModel)]="data.usu_nombre" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label>Apellido(s)</label>
+                            <input type="text" [(ngModel)]="data.usu_apellido" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label>Pais</label>
+                            <input type="text" [(ngModel)]="data.usu_pais" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label>Celular</label>
+                            <input type="text" [(ngModel)]="data.usu_telefono" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label>Ciudad</label>
+                            <input type="text" [(ngModel)]="data.usu_ciudad" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label>Dirección</label>
+                            <input type="text" [(ngModel)]="data.usu_direccion" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label>Correo Electronico</label>
+                            <input type="text" [(ngModel)]="data.usu_email" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label>Url de Facebook</label>
+                            <input type="text" [(ngModel)]="data.url_facebook" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label>Url de Instagram</label>
+                            <input type="text" [(ngModel)]="data.url_instagram" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label>Url de youtube</label>
+                            <input type="text" [(ngModel)]="data.url_youtube" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label>Fecha Nacimiento(s)</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="date" class="form-control" [(ngModel)]="data.usu_fec_nacimiento">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label>Genero</label>
+                            <select class="form-control form-control-sm" [(ngModel)]="data.usu_genero">
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                            </select>
+                        </div>
+                        <!--<div class="col-12">
                     <label>Confirmar Contraseña Para Actualizar</label>
                     <input type="text" [(ngModel)]="data.cat_nombre" class="form-control form-control-sm">
                 </div>-->
-                <div class="col-6">
-                    <br>
-                    <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="Actualizar()">
-                        Actualizar Datos
-                    </button>
-                </div>
-                <div class="col-6">
-                    <br>
-                    <div class="col-6" *ngIf="disableRestaure">
-                        <label>Clave Nueva</label>
-                        <input type="password" [(ngModel)]="restaure.passNew" class="form-control form-control-sm">
-                        <br>
+                        <div class="col-6">
+                            <br>
+                            <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="Actualizar()">
+                                Actualizar Datos
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <br>
+                            <div class="col-6" *ngIf="disableRestaure">
+                                <label>Clave Nueva</label>
+                                <input type="password" [(ngModel)]="restaure.passNew"
+                                    class="form-control form-control-sm">
+                                <br>
+                            </div>
+                            <button class="p-2 btn btn-primary btn-just-icon btn-round"
+                                (click)="disableRestaure = true;" *ngIf="!disableRestaure">
+                                Cambiar Contraseña
+                            </button>
+                            <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="CambiarPassword()"
+                                *ngIf="disableRestaure">
+                                Actualizar Contraseña
+                            </button>
+                        </div>
+                        <div class="col-12">
+                            <br><br>
+                            <h4 class="card-title">Configuracion de la Tienda</h4>
+                        </div>
+                        <div class="col-12">
+                            <label>Nombre de la tienda</label>
+                            <input type="text" [(ngModel)]="data.usu_nombre_empresa"
+                                class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <div class="mx-auto" style="width: 200px;">
+                                <h5>Logo Actual</h5>
+                                <img [src]="data.usu_logo || './assets/img/logo.png'" class="imgLogo">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <label>Subir Logo</label>
+                                <button class="btn btn-primary btn-just-icon btn-round"
+                                    (click)="subirFile('usu_logo')" *ngIf="files_logo.length > 0">
+                                    Subir Imagen
+                                </button>
+                            </div>
+                            <ngx-dropzone (change)="onSelect( $event, 'usu_logo')">
+                                <ngx-dropzone-label>Abrir archivos</ngx-dropzone-label>
+                                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files_logo"
+                                    [file]="f" [removable]="true" (removed)="onRemove(f, 'usu_logo')" multiple="true">
+                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                </ngx-dropzone-image-preview>
+                            </ngx-dropzone>
+                        </div>
+                        <div class="col-6">
+                            <br>
+                            <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="Actualizar()">
+                                Actualizar Datos
+                            </button>
+                        </div>
                     </div>
-                    <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="disableRestaure = true;" *ngIf="!disableRestaure">
-                        Cambiar Contraseña
-                    </button>
-                    <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="CambiarPassword()" *ngIf="disableRestaure">
-                        Actualizar Contraseña
-                    </button>
                 </div>
+                <br><br><br><br>
             </div>
-          </div>
-          <br><br><br><br>
+            <div></div>
         </div>
-        <div></div>
-      </div>
     </div>
 </div>
