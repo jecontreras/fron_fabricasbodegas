@@ -15,13 +15,23 @@ export class ViewProductosComponent implements OnInit {
 
   data:any = {};
   rango:number = 250;
+  userId:any = {};
+  dataUser:any = {};
 
   constructor(
     public dialogRef: MatDialogRef<ViewProductosComponent>,
     @Inject(MAT_DIALOG_DATA) public datas: any,
     private _store: Store<CART>,
     private _tools: ToolsService,
-  ) { }
+  ) { 
+    this._store.subscribe((store: any) => {
+      //console.log(store);
+      store = store.name;
+      if(!store) return false;
+      this.userId = store.usercabeza || {};
+      this.dataUser = store.user || {};
+    });
+  }
 
   ngOnInit() {
   
@@ -55,6 +65,7 @@ export class ViewProductosComponent implements OnInit {
     let color = '';
     let cantidad = this.data.cantidadAdquirir || 1;
     let precio = this.data.pro_uni_venta;
+    if( !this.data.tallas ) return this._tools.presentToast("Por Favor seleccionar una talla!");
     if( this.data.listColor ) { this.data.color = this.data.listColor.find(row=>row.foto = this.data.foto) || {}; color = this.data.color.talla }
     if(opt) { opt.selecciono = true; this.suma( opt.precios , opt.cantidad ); cantidad = opt.cantidad; precio = opt.precios; }
     else this.suma( this.data.pro_uni_venta , this.data.cantidadAdquirir );

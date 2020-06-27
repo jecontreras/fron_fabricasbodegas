@@ -56,8 +56,13 @@
                         <small class="pricesmalloferta currency2 hide"></small>
                         <!--id="precio_25" data-name="product_name"-->
                         <span>
-                            <small style="display: inline-block;" class="pricesmall currency2"
-                            id="pricesmall_25">$ {{ ( item.pro_uni_ventaEdit || item.pro_uni_venta || 0 ).toLocaleString(1) }} COP</small><br>
+                            <small style="display: inline-block;" class="pricesmall currency2" >
+                               Precio Cliente $ {{ ( item.pro_uni_ventaEdit || ( item.pro_uni_venta + rango ) || 0 ).toLocaleString(1) }} COP
+                            </small>
+                            <small class="pricesmall currency2 colorFabrica" *ngIf="dataUser.id && item.precioFabrica" >
+                               Precio Vendedor $ {{ ( ( item.precioFabrica + rango ) || 0 ).toLocaleString(1) }} COP
+                            </small>
+                            <br>
                             <span>{{ item.pro_nombre | slice: 0: 20 }}</span>
                         </span>
 

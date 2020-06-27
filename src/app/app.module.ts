@@ -34,6 +34,8 @@ import { TerminosComponent } from './layout/terminos/terminos.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { TestimoniosComponent } from './components/testimonios/testimonios.component';
 
+import { NgxCurrencyModule } from "ngx-currency";
+
 @NgModule({
   entryComponents:[
     LoginComponent,
@@ -76,6 +78,7 @@ import { TestimoniosComponent } from './components/testimonios/testimonios.compo
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    NgxCurrencyModule
   ],
   exports: [
     LoginComponent,

@@ -225,6 +225,13 @@ export class HeaderComponent implements OnInit {
         url: '/config/perfil',
         submenus:[]
       },
+      {
+        icons: 'settings',
+        nombre: 'Editar Productos',
+        disable: this.rolUser == 'vendedor',
+        url: '/config/productos',
+        submenus:[]
+      },
       /*{
         icons: 'shop',
         nombre: 'Mis Bancos',

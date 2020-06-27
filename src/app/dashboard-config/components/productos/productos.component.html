@@ -33,11 +33,11 @@
                   class="btn btn-primary btn-just-icon btn-round">
                   <i class="material-icons">search</i>
                 </button>
-                <button (click)="ordenarProductos()" class="btn btn-primary btn-just-icon btn-round" mat-raised-button
+                <button *ngIf="activando" (click)="ordenarProductos()" class="btn btn-primary btn-just-icon btn-round" mat-raised-button
                   mat-min-fab>
                   Ordenar Productos
                 </button>
-                <button (click)="crear(false)" class="btn btn-primary btn-just-icon btn-round" mat-raised-button
+                <button *ngIf="activando" (click)="crear(false)" class="btn btn-primary btn-just-icon btn-round" mat-raised-button
                   mat-min-fab>
                   <i class="material-icons">add_circle_outline</i>
                 </button>
@@ -64,10 +64,10 @@
                     <tr *ngFor="let row of dataTable.dataRows; let idx=index">
 
                       <td>
-                        <button (click)="crear(row)" class="btn btn-primary btn-just-icon btn-round">
+                        <button [disabled]="!activando" (click)="crear(row)" class="btn btn-primary btn-just-icon btn-round">
                           <i class="material-icons">remove_red_eye</i>
                         </button>
-                        <button (click)="delete(row, idx)" class="btn btn-danger btn-just-icon btn-round">
+                        <button [disabled]="!activando" (click)="delete(row, idx)" class="btn btn-danger btn-just-icon btn-round">
                           <i class="material-icons">delete_forever</i>
                         </button>
                       </td>
@@ -76,7 +76,12 @@
                       </td>
                       <td>{{ row['pro_nombre'] }}</td>
                       <td>{{ row['pro_codigo'] }}</td>
-                      <td>{{ ( row['pro_uni_venta'] || 0 ).toLocaleString(1) }} COP</td>
+                      <td>
+                        <input style="width: 138px;" [disabled]="!activando" currencyMask class="form-control form-control-sm" [(ngModel)]="row.precioFabrica" [options]="formatoMoneda" (blur)="actualizar( row, 'precioFabrica' )"/>
+                      </td>
+                      <td>
+                        <input style="width: 138px;" currencyMask class="form-control form-control-sm" [(ngModel)]="row.pro_uni_venta" [options]="formatoMoneda" (blur)="actualizar( row, 'pro_uni_venta' )"/>
+                      </td>
                       <td>{{ row['pro_categoria']?.cat_nombre }}</td>
                       <td>{{ row['pro_estado'] == 0 ? 'Activo' : 'Inactivo' }}</td>
                       <td>{{ row['createdAt'] | date:'medium' }}</td>

@@ -35,6 +35,7 @@ import { TestimonioComponent } from './components/testimonios/testimonios.compon
 import { VentastableComponent } from './table/ventastable/ventastable.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ProductosOrdenarComponent } from './table/productos-ordenar/productos-ordenar.component';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 @NgModule({
   entryComponents: [
@@ -85,7 +86,8 @@ import { ProductosOrdenarComponent } from './table/productos-ordenar/productos-o
     FormsModule,
     NgxDropzoneModule,
     AngularEditorModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    NgxCurrencyModule
   ],
   exports: [
     FormcategoriasComponent,

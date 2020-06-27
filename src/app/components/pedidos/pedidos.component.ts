@@ -40,14 +40,14 @@ export class PedidosComponent implements OnInit {
   listProductos:any = [];
   loader:boolean = false;
   urlwhat:string
-  userId:any;
+  userId:any = {};
   mySlideImages = [];
   imageObject:any = [];
 
   notscrolly:boolean=true;
   notEmptyPost:boolean = true;
   dataUser: any = {};
-
+  rango:number = 0;
 
   constructor(
     private _productos: ProductoService,
@@ -59,21 +59,50 @@ export class PedidosComponent implements OnInit {
     private _categorias: CategoriasService,
     private spinner: NgxSpinnerService
   ) { 
-
-    this.cargarProductos();
     this._store.subscribe((store: any) => {
       //console.log(store);
       store = store.name;
       if(!store) return false;
-      this.userId = store.usercabeza;
+      this.userId = store.usercabeza || {};
       this.dataUser = store.user || {};
     });
 
   }
 
   ngOnInit() {
+    this.cargarProductos();
     if((this.activate.snapshot.paramMap.get('id'))) { this.userId = (this.activate.snapshot.paramMap.get('id')); this.getUser(); }
     this.getCategorias();
+    this.detectarZona();
+  }
+
+  async detectarZona(){
+    let zona:any = await this.myUbicacion();
+    if( !zona ) return false;
+    let data:any = {
+      latitud1: zona.latitude,
+      longitud1: zona.longitude,
+      latitud2:  "7.888474",
+      longitud2: "-72.497094"
+    };
+    let result:any = await this._tools.calcularDistancia( data );
+    result = parseInt( result );
+    if( 12111 >= result ) { this.rango = 0; console.log("esta en el rango");}
+    else { this.rango = 10000; console.log("no esta en el rango"); }
+    console.log( result );
+    this.validadorPrecio();
+  }
+
+  myUbicacion(){
+    return new Promise( resolve =>{
+      if (navigator.geolocation) navigator.geolocation.getCurrentPosition(coords);
+      else { console.log("No soportado"); resolve(false);}
+      function coords(position) { resolve(position.coords); }
+    });
+  }
+
+  validadorPrecio(){
+    if( !this.dataUser.id ) if( this.userId.id ) this.rango = 0;
   }
   
   getUser(){

@@ -1,6 +1,9 @@
 <h2 mat-dialog-title>{{ titulo }} Productos</h2>
 <mat-dialog-content class="mat-typography">
-    <div class="row">
+    <div class="d-flex justify-content-center" *ngIf="disableSpinner">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div class="row" *ngIf="!disableSpinner">
         <div class="col" *ngIf="!id">
             <ngx-dropzone (change)="onSelects($event)">
                 <ngx-dropzone-label>Subir Fotos</ngx-dropzone-label>
@@ -9,8 +12,28 @@
                     <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
                 </ngx-dropzone-image-preview>
             </ngx-dropzone>
-            <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-success" (click)="subirFiles()" [disabled]="btnDisabled">Subir Imagen</button>
+            <div class="content">
+                <div class="row">
+                    <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-4">
+                        <label>Precio Vendedor</label>
+                        <input currencyMask class="form-control form-control-sm" [(ngModel)]="data.precioFabrica" [options]="formatoMoneda" />
+                    </div>
+                    <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-4">
+                        <label>Precio Cliente</label>
+                        <input currencyMask class="form-control form-control-sm" [(ngModel)]="data.pro_uni_venta" [options]="formatoMoneda" />
+                    </div>
+                    <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-4">
+                        <label for="exampleFormControlSelect1">Categoria:</label>
+                        <select class="form-control form-control-sm" [(ngModel)]="data.pro_categoria">
+                            <option [value]="item.id" *ngFor="let item of listCategorias">{{ item.cat_nombre }}</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-success" (click)="subirFiles()" [disabled]="btnDisabled" *ngIf="files.length > 0">Subir Imagen</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col" *ngIf="id && titulo == 'Crear'">
@@ -68,8 +91,14 @@
                     <input type="checkbox" [(ngModel)]="data.checkMayor" value="second_checkbox"> <label for="cbox2">Precios al Mayor</label>
                 </div>
                 <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
-                    <label>Precio Venta</label>
-                    <input type="text" [(ngModel)]="data.pro_uni_venta" class="form-control form-control-sm">
+                    <label>Precio Vendedor</label>
+                    <!-- <input type="text" [(ngModel)]="data.precioFabrica" class="form-control form-control-sm"> -->
+                    <input currencyMask class="form-control form-control-sm" [(ngModel)]="data.precioFabrica" [options]="formatoMoneda" />
+                </div>
+                <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
+                    <label>Precio Clientes</label>
+                    <!-- <input type="text" [(ngModel)]="data.pro_uni_venta" class="form-control form-control-sm"> -->
+                    <input currencyMask class="form-control form-control-sm" [(ngModel)]="data.pro_uni_venta" [options]="formatoMoneda" />
                 </div>
                 <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6" *ngIf="data.checkMayor">
                     <header class="main-box-header clearfix col-12 row">
@@ -108,9 +137,17 @@
                 </div>
                 <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
                     <label for="exampleFormControlSelect1">Tipo de medida:</label>
-                    <select class="form-control form-control-sm" [(ngModel)]="data.pro_sw_tallas">
+                    <select class="form-control form-control-sm" [(ngModel)]="data.pro_sw_tallas" (change)="blurTalla()">
                         <option [value]="item.id" *ngFor="let item of listTipoTallas">{{ item.tit_descripcion }}</option>
                     </select>
+                </div>
+                <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6" *ngIf="tallaSelect.length > 0">
+                    <label for="exampleFormControlSelect1">Medidas Disponibles:</label>
+                    <div class="row">
+                        <div class="col-6 col-sm-4 col-md-3 col-xs-2 col-lg-4" *ngFor="let tallas of tallaSelect">
+                            <mat-checkbox (ngModelChange)="tallaSeleccionando( tallas )" [(ngModel)]="tallas.check" class="example-margin">{{ tallas.tal_descripcion }}</mat-checkbox>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group col-12">
                     <label>Descripción detallada</label>
