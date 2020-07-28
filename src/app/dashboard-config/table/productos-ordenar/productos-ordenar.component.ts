@@ -28,7 +28,7 @@ export class ProductosOrdenarComponent implements OnInit {
   }
 
   getProductos(){
-    this._productos.get( { where:{ pro_activo: 0 }, limit: -1 } ).subscribe((res:any)=> { this.listGaleria = _.clone( res.data ); this.listGaleria2 = _.clone( res.data ); } );
+    this._productos.get( { where:{ pro_activo: 0 }, sort: "ordenarBy ASC", limit: -1 } ).subscribe((res:any)=> { this.listGaleria = _.clone( res.data ); this.listGaleria2 = _.clone( res.data ); } );
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -45,7 +45,11 @@ export class ProductosOrdenarComponent implements OnInit {
   actualizarOrden(){
     let ordenar = []
     // for( let row of this.listGaleria ) ordenar.push({ id: row.id });
-    for( let row of this.listGaleria2 ) ordenar.push({ id: row.id });
+    let index = 0;
+    for( let row of this.listGaleria2 ) {
+      index++;
+      ordenar.push({ id: row.id, ordenarBy: row.ordenarBy || index });
+    }
     ordenar =_.unionBy( ordenar || [], ordenar, 'id');
     this.btndisabled = true;
     this._productos.ordenar( { lista: ordenar } ).subscribe((res:any)=> {

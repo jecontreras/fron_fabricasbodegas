@@ -8,6 +8,7 @@
                 <div class="example-box" *ngFor="let item of listGaleria2" cdkDrag>
                     <img mat-card-image class="anchosImg" [src]="item.foto" alt="Photo of a Shiba Inu">
                     {{ item.pro_nombre }}
+                    <input type="number" placeholder="numero de ordenador" [(ngModel)]="item.ordenarBy">
                 </div>
             </div>
         </div>

@@ -34,6 +34,7 @@ export class ProductosComponent implements OnInit {
     where:{
       pro_activo: 0
     },
+    sort: "ordenarBy ASC",
     page: 0,
     limit: 10
   };
