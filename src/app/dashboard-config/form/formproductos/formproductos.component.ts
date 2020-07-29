@@ -252,7 +252,7 @@ export class FormproductosComponent implements OnInit {
           "pro_descripcion": `disponibles desde la talla 36 a la talla 43 echos en material sintético de muy buena calidad`,
           "pro_codigo": "3DBG1F",
           "pro_sw_tallas": 1,
-          "pro_categoria": "13",
+          "pro_categoria": this.data.pro_categoria,
           "cat_activo": 1,
           "checkMayor": 0,
           "pro_uni_venta": this.data.pro_uni_venta || 0,

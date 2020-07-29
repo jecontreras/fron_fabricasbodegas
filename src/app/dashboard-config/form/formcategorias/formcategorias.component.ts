@@ -81,7 +81,9 @@ export class FormcategoriasComponent implements OnInit {
   }
 
   guardar(){
-    this._categoria.create(this.data).subscribe((res:any)=>{
+    let data:any = _.omitBy( this.data, _.isNull );
+    data = _.omit(this.data, [ 'cat_usu_actualiz', 'createdAt', 'where','updatedAt' ])
+    this._categoria.create( data ).subscribe((res:any)=>{
       //console.log(res);
       this._tools.presentToast("Exitoso");
     }, (error)=>this._tools.presentToast("Error"));
