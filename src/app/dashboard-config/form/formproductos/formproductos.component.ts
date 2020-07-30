@@ -9,6 +9,8 @@ import { ArchivosService } from 'src/app/servicesComponents/archivos.service';
 import { environment } from 'src/environments/environment';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ProductosOrdenarComponent } from '../../table/productos-ordenar/productos-ordenar.component';
+import { STORAGES } from 'src/app/interfaces/sotarage';
+import { Store } from '@ngrx/store';
 
 const URL = environment.url;
 
@@ -37,6 +39,7 @@ export class FormproductosComponent implements OnInit {
   formatoMoneda:any = {};
 
   disableSpinner:boolean = false;
+  dataUser:any = {};
 
   constructor(
     public dialog: MatDialog,
@@ -46,10 +49,15 @@ export class FormproductosComponent implements OnInit {
     private _tools: ToolsService,
     public dialogRef: MatDialogRef<FormproductosComponent>,
     @Inject(MAT_DIALOG_DATA) public datas: any,
-    private _archivos: ArchivosService
+    private _archivos: ArchivosService,
+    private _store: Store<STORAGES>,
   ) {
     this.editor();
-    this.formatoMoneda = this._tools.formatoMoneda
+    this.formatoMoneda = this._tools.formatoMoneda;
+    this._store.subscribe((store: any) => {
+      store = store.name;
+      this.dataUser = store.user || {};
+    });
   }
 
   ngOnInit() {
@@ -82,6 +90,12 @@ export class FormproductosComponent implements OnInit {
     this.listPrecios = this.data.listPrecios || [];
     if (this.data.pro_categoria) if (this.data.pro_categoria.id) this.data.pro_categoria = this.data.pro_categoria.id;
     this.listColor = this.data.listColor || [];
+    if( !this.data.activarBTN ) this.getMisPrecios();
+  }
+
+  async getMisPrecios(){
+    let result:any = await this.getPrecio( { id: this.data.id });
+    if( result ) this.listPrecios = result.listPrecios || this.data.listPrecios;
   }
 
   getCategorias() {
@@ -142,6 +156,9 @@ export class FormproductosComponent implements OnInit {
   }
 
   submit() {
+    // valida si es el administrador
+    if( !this.data.activarBTN ) return false;
+    ///////////////////////////////////////////
     if (this.data.cat_activo) this.data.cat_activo = 0;
     else this.data.cat_activo = 1;
     if (this.data.checkMayor) this.data.checkMayor = 1;
@@ -164,16 +181,20 @@ export class FormproductosComponent implements OnInit {
     });
   }
 
-  guardarTalla(item: any) {
+  guardarPrecios(item: any) {
     item.check = true;
-    this.data.listPrecios = this.listPrecios;
-    if (this.id) this.submit();
+    if( this.data.activarBTN ) {
+      this.data.listPrecios = this.listPrecios;
+      if (this.id) this.submit();
+    }else this.actualizarProductVendedor();
   }
 
   EliminarTalla(idx: any) {
     this.listPrecios.splice(idx, 1);
-    this.data.listPrecios = this.listPrecios;
-    if (this.id) this.submit();
+    if( this.data.activarBTN ) {
+      this.data.listPrecios = this.listPrecios;
+      if (this.id) this.submit();
+    }else this.actualizarProductVendedor();
   }
 
   guardar() {
@@ -306,6 +327,53 @@ export class FormproductosComponent implements OnInit {
           this._tools.presentToast("Error de servidor")
       }
     )
+  }
+
+  async actualizarProductVendedor( ){
+    return new Promise( async ( resolve ) =>{
+      let data:any = { id: this.data.id };
+      let precio:any = await this.getPrecio( data );
+      let resultado:any = Object();
+      if( !precio ) {
+        data = {
+          user: this.dataUser.id,
+          producto: this.data.id,
+          precio: this.data.pro_uni_venta || 0,
+          listPrecios: this.listPrecios || []
+        };
+        resultado = await this.createPrecio( data );
+      }else{
+        data = {
+          id: precio.id,
+          precio: this.data.pro_uni_venta || 0,
+          listPrecios: this.listPrecios
+        };
+        resultado = await this.updatePrecio( data );
+      }
+      resolve( true );
+    })
+  }
+  
+  async getPrecio( data:any ){
+    return new Promise( resolve=>{
+      this._productos.getPrecios( { where: { producto: data.id, user: this.dataUser.id }, limit: 1 }).subscribe( ( res:any )=>{
+        res = res.data[0];
+        if( !res ) return resolve( false );
+        return resolve( res );
+      } ,( error:any )=> resolve( false ));
+    });
+  }
+
+  async createPrecio( data ){
+    return new Promise( resolve =>{
+      this._productos.createPrecios( data ).subscribe((res:any)=>resolve( res ), (error:any)=> resolve( false ));
+    })
+  }
+
+  async updatePrecio( data ){
+    return new Promise( resolve =>{
+      this._productos.updatePrecios( data ).subscribe((res:any)=>resolve( res ), (error:any)=> resolve( false ));
+    })
   }
 
   editor() {

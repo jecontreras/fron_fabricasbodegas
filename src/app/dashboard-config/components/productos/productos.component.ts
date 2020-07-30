@@ -74,7 +74,7 @@ export class ProductosComponent implements OnInit {
   }
 
   async crear(obj:any){
-    if(!this.activando ) return false;
+    //if(!this.activando ) return false;
     if( this.disabledBtn ) return false;
     this.disabledBtn = true;
     if( obj ) {
@@ -82,8 +82,9 @@ export class ProductosComponent implements OnInit {
       if( !obj ) return this._tools.presentToast("Estamos teniendo Problemas al encontrar este producto!");
     }
     this.disabledBtn = false;
+    obj.activarBTN = this.activando;
     const dialogRef = this.dialog.open(FormproductosComponent,{
-      data: {datos: obj || {}},
+      data: { datos: obj || {} },
       height:  '550px',
       width: '100%',
     });

@@ -71,6 +71,7 @@ export class PedidosComponent implements OnInit {
   }
 
   ngOnInit() {
+    if( this.userId ) if( Object.keys( this.userId ).length > 0 ) this.query.idVendedor = this.userId.id;
     this.cargarProductos();
     if((this.activate.snapshot.paramMap.get('id'))) { this.userId = (this.activate.snapshot.paramMap.get('id')); this.getUser(); }
     this.getCategorias();
