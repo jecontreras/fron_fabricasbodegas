@@ -74,15 +74,15 @@ export class ProductosComponent implements OnInit {
   }
 
   async crear(obj:any){
-    //if(!this.activando ) return false;
+    if(!this.activando ) return false;
     if( this.disabledBtn ) return false;
     this.disabledBtn = true;
     if( obj ) {
       obj = await this.getProductoId( obj.id );
       if( !obj ) return this._tools.presentToast("Estamos teniendo Problemas al encontrar este producto!");
+      obj.activarBTN = this.activando;
     }
     this.disabledBtn = false;
-    obj.activarBTN = this.activando;
     const dialogRef = this.dialog.open(FormproductosComponent,{
       data: { datos: obj || {} },
       height:  '550px',
@@ -174,15 +174,15 @@ export class ProductosComponent implements OnInit {
     this.dataTable.dataRows = [];
     //console.log(this.datoBusqueda);
     this.datoBusqueda = this.datoBusqueda.trim();
-    if (this.datoBusqueda === '') {
-      this.query = {
-        where:{
-          pro_activo: 0
-        },
-        limit: 10
-      }
-      this.cargarTodos();
-    } else {
+    this.query = {
+      where:{
+        pro_activo: 0
+      },
+      sort: "ordenarBy ASC",
+      page: 0,
+      limit: 10
+    };
+    if (this.datoBusqueda !== '') {
       this.query.where.or = [
         {
           pro_nombre: {
@@ -205,8 +205,8 @@ export class ProductosComponent implements OnInit {
           }
         }
       ];
-      this.cargarTodos();
     }
+    this.cargarTodos();
   }
 
   async actualizar( item:any, opt:string ){

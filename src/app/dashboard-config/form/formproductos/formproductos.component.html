@@ -100,11 +100,14 @@
                     <!-- <input type="text" [(ngModel)]="data.pro_uni_venta" class="form-control form-control-sm"> -->
                     <input currencyMask class="form-control form-control-sm" [disabled]="!data.activarBTN" [(ngModel)]="data.pro_uni_venta" [options]="formatoMoneda" />
                 </div>
+                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6">
+
+                </div>
                 <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6" *ngIf="data.checkMayor">
                     <header class="main-box-header clearfix col-12 row">
-                        <h2 class="col">Precios por cantidad</h2>
+                        <h2 class="col">Precios por cantidad Vendedor</h2>
                         <div>
-                            <button type="button" class="btn btn-success" (click)="PrecioPush()">
+                            <button type="button" class="btn btn-success" (click)="PrecioPush('vendedor')">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -123,10 +126,45 @@
                                 <div class="form-group col-2">
                                     <div class="marginTop">
                                         <button *ngIf="!item.check" type="button" class="btn btn-success"
-                                            (click)="guardarPrecios( item )">
+                                            (click)="guardarPrecios( item, 'vendedor' )">
                                             <span>Agregar</span>
                                         </button>
-                                        <button *ngIf="item.check" type="button" class="btn btn-danger" (click)="EliminarTalla(idx)">
+                                        <button *ngIf="item.check" type="button" class="btn btn-danger" (click)="EliminarTalla(idx, 'vendedor')">
+                                            <span>Eliminar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6" *ngIf="data.checkMayor">
+                    <header class="main-box-header clearfix col-12 row">
+                        <h2 class="col">Precios por cantidad Cliente</h2>
+                        <div>
+                            <button type="button" class="btn btn-success" (click)="PrecioPush('cliente')">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </header>
+                    <ul class="col list-group list-group-flush">
+                        <li class="list-group-item" *ngFor="let item of listPreciosCliente;let idx=index">
+                            <div class="row">
+                                <div class="form-group col-5">
+                                    <label for="exampleInputEmail1">Cantidad</label>
+                                    <input type="text" [(ngModel)]="item.cantidad" class="form-control">
+                                </div>
+                                <div class="form-group col-5">
+                                    <label for="exampleInputEmail1">Precios</label>
+                                    <input type="text" [(ngModel)]="item.precios" class="form-control">
+                                </div>
+                                <div class="form-group col-2">
+                                    <div class="marginTop">
+                                        <button *ngIf="!item.check" type="button" class="btn btn-success"
+                                            (click)="guardarPrecios( item, 'cliente' )">
+                                            <span>Agregar</span>
+                                        </button>
+                                        <button *ngIf="item.check" type="button" class="btn btn-danger" (click)="EliminarTalla( idx, 'vendedor' )">
                                             <span>Eliminar</span>
                                         </button>
                                     </div>

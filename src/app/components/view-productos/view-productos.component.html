@@ -33,10 +33,29 @@
                 <label>Cantidad Adquirir</label>
                 <input type="number" [(ngModel)]="data.cantidadAdquirir" class="form-control form-control-sm">
                 <br>
+                <div *ngIf="data.checkMayor == 1 && dataUser.id">
+                    <mat-list>
+                        <div mat-subheader>Lista de precios al Mayor Vendedor</div>
+                        <mat-list-item *ngFor="let item of data.listPrecios" class="pointer"  (click)="AgregarCart(item)"
+                        [ngClass]="{
+                            'colorSeleccionado':item.selecciono == true
+                          }"
+                        >
+                          <div mat-line class="row">
+                              <div class="col-6">
+                                  <span>Cantidad: {{ item.cantidad }}</span>
+                                  &nbsp;&nbsp;
+                                  <span>Precios: {{ ( item.precios || 0 ).toLocaleString(1) }} COP</span>
+                              </div>
+                          </div>
+                        </mat-list-item>
+                      </mat-list>
+                </div>
+
                 <div *ngIf="data.checkMayor == 1">
                     <mat-list>
-                        <div mat-subheader>Lista de precios al Mayor</div>
-                        <mat-list-item *ngFor="let item of data.listPrecios" class="pointer"  (click)="AgregarCart(item)"
+                        <div mat-subheader>Lista de precios al Mayor Cliente</div>
+                        <mat-list-item *ngFor="let item of data.listPreciosCliente" class="pointer"  (click)="AgregarCart(item)"
                         [ngClass]="{
                             'colorSeleccionado':item.selecciono == true
                           }"

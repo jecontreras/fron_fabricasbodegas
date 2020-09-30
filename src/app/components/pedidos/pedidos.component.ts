@@ -158,7 +158,7 @@ export class PedidosComponent implements OnInit {
     this.notscrolly = true; 
     this.notEmptyPost = true;
     if (this.seartxt === '') {
-      this.query = {where:{pro_activo: 0},limit: 15, page: 0};
+      this.query = {where:{pro_activo: 0},limit: 15, sort: "ordenarBy ASC", page: 0};
       this.cargarProductos();
     } else {
       this.query.where.or = [
@@ -208,13 +208,13 @@ export class PedidosComponent implements OnInit {
       if( cabeza.usu_perfil == 3 ) cerialNumero = ( cabeza.usu_indicativo || '57' ) + ( cabeza.usu_telefono || '3147563817' );
       else cerialNumero = this.validarNumero();
     }else cerialNumero = this.validarNumero();
-    if( this.userId.id ) this.urlwhat = `https://wa.me/${ this.userId.usu_indicativo || 57 }${ ( this.userId.usu_telefono || '3147563817') }?text=Hola Victor landazury cómo esta por favor me confirma disponibilidad de este modelo ${obj.pro_nombre} foto ==> ${ obj.foto } talla ${ ( obj.tallasSelect || 'cualquiera' ) } quedo pendiente`;
+    if( this.userId.id ) this.urlwhat = `https://wa.me/${ this.userId.usu_indicativo || 57 }${ ( this.userId.usu_telefono || '3147563817') }?text=Hola ${ this.userId.usu_nombre } ${ this.userId.usu_apellido } cómo esta por favor me confirma disponibilidad de este modelo ${obj.pro_nombre} foto ==> ${ obj.foto } talla ${ ( obj.tallasSelect || 'cualquiera' ) } quedo pendiente`;
     else this.urlwhat = `https://wa.me/${ cerialNumero }?text=Hola Victor landazury cómo esta por favor me confirma disponibilidad de este modelo ${obj.pro_nombre} foto ==> ${ obj.foto } talla ${ ( obj.tallasSelect || 'cualquiera' ) } quedo pendiente`;
     window.open(this.urlwhat);
   }
 
   validarNumero(){
-    if( Object.keys( this.dataUser ).length > 0 ) return "573154074456";
+    if( Object.keys( this.dataUser ).length > 0 ) return "573148487506";
     else return "573147563817";
   }
   

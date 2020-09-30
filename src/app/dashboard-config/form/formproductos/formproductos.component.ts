@@ -31,6 +31,7 @@ export class FormproductosComponent implements OnInit {
   listColor: any = [];
   editorConfig: any;
   listPrecios: any = [];
+  listPreciosCliente:any = [];
   listGaleria: any = [];
 
   btnDisabled: boolean = false;
@@ -90,7 +91,8 @@ export class FormproductosComponent implements OnInit {
     this.listPrecios = this.data.listPrecios || [];
     if (this.data.pro_categoria) if (this.data.pro_categoria.id) this.data.pro_categoria = this.data.pro_categoria.id;
     this.listColor = this.data.listColor || [];
-    if( !this.data.activarBTN ) this.getMisPrecios();
+    this.listPreciosCliente = this.data.listPreciosCliente || [];
+    //if( !this.data.activarBTN ) this.getMisPrecios();
   }
 
   async getMisPrecios(){
@@ -175,26 +177,37 @@ export class FormproductosComponent implements OnInit {
     });
   }
 
-  PrecioPush() {
-    this.listPrecios.push({
-      codigo: this.codigo()
-    });
+  PrecioPush( opt:string) {
+    if( opt == "vendedor"){
+      this.listPrecios.push({
+        codigo: this.codigo()
+      });
+    }else{
+      this.listPreciosCliente.push({
+        codigo: this.codigo()
+      });
+    }
   }
 
-  guardarPrecios(item: any) {
+  guardarPrecios(item: any, opt:string) {
     item.check = true;
-    if( this.data.activarBTN ) {
+    if( opt == 'vendedor'){
       this.data.listPrecios = this.listPrecios;
-      if (this.id) this.submit();
-    }else this.actualizarProductVendedor();
+    }else{
+      this.data.listPreciosCliente = this.listPreciosCliente;
+    }
+    if ( this.id ) this.submit();
   }
 
-  EliminarTalla(idx: any) {
-    this.listPrecios.splice(idx, 1);
-    if( this.data.activarBTN ) {
+  EliminarTalla( idx: any, opt:string ) {
+    if( opt == 'vendedor'){
+      this.listPrecios.splice(idx, 1);
       this.data.listPrecios = this.listPrecios;
-      if (this.id) this.submit();
-    }else this.actualizarProductVendedor();
+    }else{
+      this.listPrecios.splice(idx, 1);
+      this.data.listPreciosCliente = this.listPreciosCliente;
+    }
+    if ( this.id ) this.submit();
   }
 
   guardar() {
