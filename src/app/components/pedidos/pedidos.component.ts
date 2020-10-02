@@ -214,7 +214,7 @@ export class PedidosComponent implements OnInit {
   }
 
   validarNumero(){
-    if( Object.keys( this.dataUser ).length > 0 ) return "573148487506";
+    if( Object.keys( this.dataUser ).length > 0 ) return "573154074456";
     else return "573147563817";
   }
   

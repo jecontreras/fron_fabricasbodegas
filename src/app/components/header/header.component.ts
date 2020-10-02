@@ -91,6 +91,10 @@ export class HeaderComponent implements OnInit {
     if(this.rolUser === 'administrador') this.getCarrito();
   }
 
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
   getVentas(){
     //console.log("***")
     let data:any = { where:{ view:0 },limit: 100 }
@@ -164,13 +168,15 @@ export class HeaderComponent implements OnInit {
       if( numeroSplit[1] ) cabeza.usu_telefono = numeroSplit[1];
       if( cabeza.usu_perfil == 3 ) cerialNumero = ( cabeza.usu_indicativo || '57' ) + ( cabeza.usu_telefono || '3147563817' );
       else cerialNumero = `${ this.userId.usu_indicativo || 57 }${ this.userId.usu_telefono || '3147563817'}`;
-    }else cerialNumero = "573147563817";
-    if( this.userId.id ) this.urlwhat = `https://wa.me/${ this.userId.usu_indicativo || 57 }${ ( (_.split( this.userId.usu_telefono , "+57", 2))[1] ) || 3147563817 }?text=Hola ${ this.userId.usu_nombre } ${ this.userId.usu_apellido }, como esta, saludo cordial, estoy interesad@ en comprar los siguientes ${texto}`
-    else this.urlwhat = `https://wa.me/${ cerialNumero  }?text=Hola Victor landazury, como esta, saludo cordial, estoy interesad@ en comprar los siguientes ${texto}`
+    }else cerialNumero = this.validarNumero();
+    if( this.userId.id ) this.urlwhat = `https://wa.me/${ this.userId.usu_indicativo || 57 }${ ( this.userId.usu_telefono || '3147563817') }?text=Hola ${ this.userId.usu_nombre } ${ this.userId.usu_apellido } como esta, saludo cordial, estoy interesad@ en comprar los siguientes ${texto}`;
+    else this.urlwhat = `https://wa.me/${ cerialNumero }?text=Hola Victor landazury, cómo esta, saludo cordial, estoy interesad@ en comprar los siguientes ${texto}`;
+    if( this.userId.id ) this.urlwhat = `https://wa.me/${ this.userId.usu_indicativo || 57 }${ ( (_.split( this.userId.usu_telefono , "+57", 2))[1] ) || this.validarNumero() }?text=Hola ${ this.userId.usu_nombre } ${ this.userId.usu_apellido }, como esta, saludo cordial, estoy interesad@ en comprar los siguientes ${texto}`
   }
 
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
+  validarNumero(){
+    if( Object.keys( this.dataUser ).length > 0 ) return "573154074456";
+    else return "573147563817";
   }
 
   getInfoUser(){
